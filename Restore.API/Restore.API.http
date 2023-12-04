@@ -1,2 +1,10 @@
-@Restore.API_HostAddress = http://localhost:5172
+@Restore.API_HostAddress = https://localhost:7263
 
+
+GET {{Restore.API_HostAddress}}/api/products
+
+###
+
+GET {{Restore.API_HostAddress}}/api/products/2
+
+###
