@@ -31,4 +31,20 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+// Seed Products
+var scope = app.Services.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+
+try
+{
+    // Creates the database if it does not exist
+    context.Database.Migrate();
+    DbInitializer.Initialize(context);
+}
+catch (Exception ex)
+{
+    logger.LogError(ex, "A problem occurred during migration.");
+}
+
 app.Run();
