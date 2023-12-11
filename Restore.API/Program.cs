@@ -16,6 +16,11 @@ builder.Services.AddDbContext<StoreContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
+// Add CORS service to resolve this browser error:
+// Access to fetch at 'https://localhost:7263/api/products' from origin 'http://localhost:3000' has been blocked
+// by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -24,6 +29,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+// CORS Middleware
+app.UseCors(options =>
+{
+    options.AllowAnyHeader() // Request HTTP headers from the client to our API
+    .AllowAnyMethod() // HTTP Methods (GET, PUT, POST, DELETE)
+    .WithOrigins("http://localhost:3000");
+    // .AllowAnyOrigins() // If WithOrigins() does not work
+});
 
 app.UseHttpsRedirection();
 
