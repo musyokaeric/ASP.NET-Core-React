@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Restore.API.Data;
+using Restore.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,10 @@ builder.Services.AddCors();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
+// Exception handling middleware
+app.UseMiddleware<ExceptionMiddleware>();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
