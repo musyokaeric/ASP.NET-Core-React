@@ -8,3 +8,23 @@ GET {{Restore.API_HostAddress}}/api/products
 GET {{Restore.API_HostAddress}}/api/products/2
 
 ###
+
+GET {{Restore.API_HostAddress}}/api/buggy/not-found
+
+###
+
+GET {{Restore.API_HostAddress}}/api/buggy/unauthorized
+
+###
+
+GET {{Restore.API_HostAddress}}/api/buggy/server-error
+
+###
+
+GET {{Restore.API_HostAddress}}/api/buggy/bad-request
+
+###
+
+GET {{Restore.API_HostAddress}}/api/buggy/validation-error
+
+###
