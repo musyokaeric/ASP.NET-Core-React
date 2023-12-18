@@ -2,7 +2,6 @@ import { Divider, Grid, Table, TableBody, TableCell, TableContainer, TableRow, T
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 
-import axios from "axios";
 import { Product } from "../../app/models/product";
 import agent from "../../app/api/agent";
 
@@ -14,7 +13,7 @@ export default function ProductDetails() {
     useEffect(() => {
         id && agent.Catalog.details(parseInt(id))
             .then(response => setProduct(response))
-            .catch(error => console.log(error))
+            .catch(error => console.log(error.response))
             .finally(() => setLoading(false));
     }, [id])
 
