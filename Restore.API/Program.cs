@@ -40,6 +40,7 @@ app.UseCors(options =>
 {
     options.AllowAnyHeader() // Request HTTP headers from the client to our API
     .AllowAnyMethod() // HTTP Methods (GET, PUT, POST, DELETE)
+    .AllowCredentials() // Allows our client to pass the cookie to and from our API
     .WithOrigins("http://localhost:3000");
     // .AllowAnyOrigins() // If WithOrigins() does not work
 });

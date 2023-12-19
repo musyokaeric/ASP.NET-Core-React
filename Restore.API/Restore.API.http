@@ -28,3 +28,11 @@ GET {{Restore.API_HostAddress}}/api/buggy/bad-request
 GET {{Restore.API_HostAddress}}/api/buggy/validation-error
 
 ###
+
+GET {{Restore.API_HostAddress}}/api/basket
+
+###
+
+POST {{Restore.API_HostAddress}}/api/basket?productId=2&quantity=1
+
+###
