@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.127-alpha">
+﻿<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/0.5.127-alpha">
   <PropertyGroup>
     <StartupCommand>npm run dev</StartupCommand>
     <JavaScriptTestRoot>src\</JavaScriptTestRoot>
@@ -11,10 +11,13 @@
   <ItemGroup>
     <Folder Include="src\app\api\" />
     <Folder Include="src\app\errors\" />
+    <Folder Include="src\app\context\" />
+    <Folder Include="src\app\util\" />
     <Folder Include="src\app\router\" />
     <Folder Include="src\features\catalog\" />
     <Folder Include="src\features\about\" />
     <Folder Include="src\features\contact\" />
     <Folder Include="src\features\home\" />
+    <Folder Include="src\features\basket\" />
   </ItemGroup>
 </Project>
