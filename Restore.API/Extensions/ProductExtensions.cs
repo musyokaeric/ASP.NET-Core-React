@@ -17,5 +17,14 @@ namespace Restore.API.Extensions
 
             return query;
         }
+
+        public static IQueryable<Product> Search(this IQueryable<Product> query, string search)
+        {
+            if (string.IsNullOrEmpty(search)) return query;
+
+            var lowerCaseSearch = search.Trim().ToLower();
+
+            return query.Where(p=>p.Name.ToLower().Contains(lowerCaseSearch));
+        }
     }
 }
