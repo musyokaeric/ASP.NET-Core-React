@@ -11,7 +11,7 @@ export default function Catalog() {
 
     useEffect(() => {
         if (!productsLoaded) dispatch(fetchProductsAsync());
-    }, [productsLoaded]);
+    }, [dispatch, productsLoaded]);
 
     if (status.includes("pending")) return <LoadingComponent message="Loading products..." />;
 
