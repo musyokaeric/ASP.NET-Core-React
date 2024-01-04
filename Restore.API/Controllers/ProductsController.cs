@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Restore.API.Data;
 using Restore.API.Entities;
 using Restore.API.Extensions;
+using Restore.API.Helpers;
+using System.Text.Json;
 
 namespace Restore.API.Controllers
 {
@@ -17,15 +19,19 @@ namespace Restore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string orderBy, string search, string brands, string types)
+        public async Task<ActionResult<PagedList<Product>>> GetProducts([FromQuery] ProductParams productParams)
         {
             var query = context.Products
-                .Sort(orderBy) // ProductExtension class
-                .Search(search)
-                .Filter(brands, types)
-                .AsQueryable();    
+                .Sort(productParams.OrderBy) // ProductExtension class
+                .Search(productParams.Search)
+                .Filter(productParams.Brands, productParams.Types)
+                .AsQueryable();
 
-            return await query.ToListAsync();
+            var products = await PagedList<Product>.ToPagedList(query, productParams.PageNumber, productParams.PageSize);
+
+            Response.AddPaginationHeader(products.Metadata);
+
+            return products;
         }
 
         [HttpGet("{id}")]
