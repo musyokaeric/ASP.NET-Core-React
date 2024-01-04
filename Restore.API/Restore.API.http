@@ -52,3 +52,7 @@ GET {{Restore.API_HostAddress}}/api/basket
 POST {{Restore.API_HostAddress}}/api/basket?productId=2&quantity=1
 
 ###
+
+GET {{Restore.API_HostAddress}}/api/products/filters
+
+###

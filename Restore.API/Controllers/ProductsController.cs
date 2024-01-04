@@ -43,5 +43,14 @@ namespace Restore.API.Controllers
 
             return Ok(product);
         }
+
+        [HttpGet("filters")]
+        public async Task<IActionResult> GetFilters()
+        {
+            var brands = await context.Products.Select(p => p.Brand).Distinct().ToListAsync();
+            var types = await context.Products.Select(p => p.Type).Distinct().ToListAsync();
+
+            return Ok(new { brands, types });
+        }
     }
 }
