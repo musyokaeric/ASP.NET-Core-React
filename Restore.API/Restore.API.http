@@ -13,6 +13,14 @@ GET {{Restore.API_HostAddress}}/api/products?orderBy=priceDesc
 
 ###
 
+GET {{Restore.API_HostAddress}}/api/products?search=whizzy
+
+###
+
+GET {{Restore.API_HostAddress}}/api/products?types=boots
+
+###
+
 GET {{Restore.API_HostAddress}}/api/products/2
 
 ###

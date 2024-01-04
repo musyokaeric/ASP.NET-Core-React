@@ -17,12 +17,13 @@ namespace Restore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string orderBy, string search)
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string orderBy, string search, string brands, string types)
         {
             var query = context.Products
                 .Sort(orderBy) // ProductExtension class
                 .Search(search)
-                .AsQueryable();         
+                .Filter(brands, types)
+                .AsQueryable();    
 
             return await query.ToListAsync();
         }
