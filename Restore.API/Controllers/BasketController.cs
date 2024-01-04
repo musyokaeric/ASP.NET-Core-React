@@ -25,7 +25,7 @@ namespace Restore.API.Controllers
             return base.Ok(MapBasketToDTO(basket));
         }
 
-        
+
 
         [HttpPost] // api/basket?productId=3&quantity=2
         public async Task<ActionResult<BasketDTO>> AddItemToBasket(int productId, int quantity)
@@ -36,7 +36,7 @@ namespace Restore.API.Controllers
 
             // get product
             var product = await context.Products.FindAsync(productId);
-            if (product == null) return NotFound();
+            if (product == null) return BadRequest(new ProblemDetails { Title = "Product Not Found" });
 
             // add item
             basket.AddItem(product, quantity);
