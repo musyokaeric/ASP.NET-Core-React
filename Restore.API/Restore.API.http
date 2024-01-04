@@ -5,6 +5,14 @@ GET {{Restore.API_HostAddress}}/api/products
 
 ###
 
+GET {{Restore.API_HostAddress}}/api/products?orderBy=price
+
+###
+
+GET {{Restore.API_HostAddress}}/api/products?orderBy=priceDesc
+
+###
+
 GET {{Restore.API_HostAddress}}/api/products/2
 
 ###

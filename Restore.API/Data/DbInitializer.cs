@@ -168,7 +168,7 @@ namespace Restore.API.Data
                     Name = "Core Red Boots",
                     Description =
                         "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.",
-                    Price = 189.99m,
+                    Price = 189.99,
                     ImageUrl = "/images/products/boot-core2.png",
                     Brand = "NetCore",
                     Type = "Boots",
@@ -179,7 +179,7 @@ namespace Restore.API.Data
                     Name = "Core Purple Boots",
                     Description =
                         "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.",
-                    Price = 199.99m,
+                    Price = 199.99,
                     ImageUrl = "/images/products/boot-core1.png",
                     Brand = "NetCore",
                     Type = "Boots",

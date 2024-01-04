@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Restore.API.Data;
 using Restore.API.Entities;
+using Restore.API.Extensions;
 
 namespace Restore.API.Controllers
 {
@@ -16,10 +17,13 @@ namespace Restore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts(string orderBy)
         {
-            var products = await context.Products.ToListAsync();
-            return Ok(products);
+            var query = context.Products
+                .Sort(orderBy) // ProductExtension class
+                .AsQueryable();         
+
+            return await query.ToListAsync();
         }
 
         [HttpGet("{id}")]
