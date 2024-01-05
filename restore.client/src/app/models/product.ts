@@ -9,5 +9,14 @@ export interface Product {
     quantity?: number; // optional
 }
 
+export interface ProductParams {
+    orderBy: string;
+    search?: string;
+    types?: string[];
+    brands?: string[];
+    pageNumber: number;
+    pageSize: number;
+}
+
 // Convert JSON to Typescript interface
 // https://json2ts.vercel.app/
