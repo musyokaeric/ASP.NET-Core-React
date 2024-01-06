@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Restore.API.Data;
+using Restore.API.Entities;
 using Restore.API.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,13 @@ builder.Services.AddDbContext<StoreContext>(options =>
 // Access to fetch at 'https://localhost:7263/api/products' from origin 'http://localhost:3000' has been blocked
 // by CORS policy: No 'Access-Control-Allow-Origin' header is present on the requested resource.
 builder.Services.AddCors();
+
+// Identity
+builder.Services.AddIdentityCore<User>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<StoreContext>();
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -54,13 +63,14 @@ app.MapControllers();
 // Seed Products
 var scope = app.Services.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService<StoreContext>();
+var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
 var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
 
 try
 {
     // Creates the database if it does not exist
-    context.Database.Migrate();
-    DbInitializer.Initialize(context);
+    await context.Database.MigrateAsync();
+    await DbInitializer.Initialize(context, userManager);
 }
 catch (Exception ex)
 {

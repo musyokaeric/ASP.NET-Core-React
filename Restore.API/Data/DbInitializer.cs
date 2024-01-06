@@ -1,11 +1,31 @@
-﻿using Restore.API.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using Restore.API.Entities;
 
 namespace Restore.API.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(StoreContext context)
+        public static async Task Initialize(StoreContext context, UserManager<User> userManager)
         {
+            if(!userManager.Users.Any())
+            {
+                var user = new User
+                {
+                    UserName = "customer",
+                    Email = "customer@restore.com"
+                };
+                await userManager.CreateAsync(user,"Password01!");
+                await userManager.AddToRoleAsync(user, "Member");
+
+                var admin = new User
+                {
+                    UserName = "admin",
+                    Email = "admin@restore.com"
+                };
+                await userManager.CreateAsync(admin, "Password01!");
+                await userManager.AddToRolesAsync(admin, new[] { "Admin" ,"Member"});
+            }
+
             if (context.Products.Any()) return;
 
             var products = new List<Product>
