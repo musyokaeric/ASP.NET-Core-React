@@ -25,7 +25,10 @@ builder.Services.AddDbContext<StoreContext>(options =>
 builder.Services.AddCors();
 
 // Identity
-builder.Services.AddIdentityCore<User>()
+builder.Services.AddIdentityCore<User>(options=>
+{
+    options.User.RequireUniqueEmail = true; // Prevents duplicate emails
+})
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication();
