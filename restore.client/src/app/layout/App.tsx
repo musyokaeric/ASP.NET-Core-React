@@ -9,6 +9,8 @@ import LoadingComponent from "./LoadingComponent";
 import { useAppDispatch } from "../store/configureStore";
 import { setBasket } from "../../features/basket/basketSlice";
 
+import "react-toastify/dist/ReactToastify.css";
+
 function App() {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
@@ -40,11 +42,11 @@ function App() {
         setDarkMode(!darkMode);
     }
 
-    if (loading) return <LoadingComponent message="Initializing app..." />;
+    if (loading) return <LoadingComponent message='Initializing app...' />;
 
     return (
         <ThemeProvider theme={theme}>
-            <ToastContainer position="bottom-right" hideProgressBar theme="colored" />
+            <ToastContainer position='bottom-right' hideProgressBar theme='colored' />
             <CssBaseline />
             <Header darkMode={darkMode} handleThemeChange={handleThemeChange} />
             <Container>
