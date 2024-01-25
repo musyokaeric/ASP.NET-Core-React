@@ -46,7 +46,7 @@ namespace Restore.API.Controllers
             {
                 Email = user.Email,
                 Token = await tokenService.GenerateToken(user),
-                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket.MapBasketToDto()
+                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket?.MapBasketToDto()
             });
         }
 
@@ -71,10 +71,12 @@ namespace Restore.API.Controllers
         public async Task<ActionResult<UserDTO>> GetCurrentUser()
         {
             var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var userBasket = await RetrieveBasket(User.Identity.Name);
             return Ok(new UserDTO
             {
                 Email = user.Email,
                 Token = await tokenService.GenerateToken(user),
+                Basket = userBasket?.MapBasketToDto()
             });
         }
 
