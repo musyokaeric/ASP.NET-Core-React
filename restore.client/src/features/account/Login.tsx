@@ -11,27 +11,39 @@ import { Paper } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import agent from "../../app/api/agent";
+import { FieldValues, useForm } from "react-hook-form";
+import { LoadingButton } from "@mui/lab";
 
 export default function Login() {
-    const [values, setValues] = useState({
-        username: "",
-        password: "",
-    });
+    const {
+        register,
+        handleSubmit,
+        formState: { isSubmitting },
+    } = useForm();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        // const data = new FormData(event.currentTarget);
-        // console.log({
-        //     email: data.get("email"),
-        //     password: data.get("password"),
-        // });
-        console.log(values);
-        agent.Account.login(values);
-    };
+    // const [values, setValues] = useState({
+    //     username: "",
+    //     password: "",
+    // });
 
-    function handleInputChange(event: any) {
-        const { name, value } = event.target;
-        setValues({ ...values, [name]: value });
+    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    //     event.preventDefault();
+    //     // const data = new FormData(event.currentTarget);
+    //     // console.log({
+    //     //     email: data.get("email"),
+    //     //     password: data.get("password"),
+    //     // });
+    //     console.log(values);
+    //     agent.Account.login(values);
+    // };
+
+    // function handleInputChange(event: any) {
+    //     const { name, value } = event.target;
+    //     setValues({ ...values, [name]: value });
+    // }
+
+    async function submitForm(data: FieldValues) {
+        await agent.Account.login(data);
     }
 
     return (
@@ -42,12 +54,12 @@ export default function Login() {
             <Typography component='h1' variant='h5'>
                 Sign in
             </Typography>
-            <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField margin='normal' fullWidth label='Username' name='username' autoFocus onChange={handleInputChange} value={values.username} />
-                <TextField margin='normal' fullWidth name='password' label='Password' type='password' onChange={handleInputChange} value={values.password} />
-                <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
+            <Box component='form' onSubmit={handleSubmit(submitForm)} noValidate sx={{ mt: 1 }}>
+                <TextField margin='normal' fullWidth label='Username' autoFocus {...register("username")} />
+                <TextField margin='normal' fullWidth label='Password' type='password' {...register("password")} />
+                <LoadingButton loading={isSubmitting} type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
                     Sign In
-                </Button>
+                </LoadingButton>
                 <Grid container>
                     <Grid item>
                         <Link to='/register'>{"Don't have an account? Sign Up"}</Link>
