@@ -9,16 +9,30 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { Paper } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import agent from "../../app/api/agent";
 
 export default function Login() {
+    const [values, setValues] = useState({
+        username: "",
+        password: "",
+    });
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get("email"),
-            password: data.get("password"),
-        });
+        // const data = new FormData(event.currentTarget);
+        // console.log({
+        //     email: data.get("email"),
+        //     password: data.get("password"),
+        // });
+        console.log(values);
+        agent.Account.login(values);
     };
+
+    function handleInputChange(event: any) {
+        const { name, value } = event.target;
+        setValues({ ...values, [name]: value });
+    }
 
     return (
         <Container component={Paper} maxWidth='sm' sx={{ display: "flex", flexDirection: "column", alignItems: "center", p: 4 }}>
@@ -29,8 +43,8 @@ export default function Login() {
                 Sign in
             </Typography>
             <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField margin='normal' required fullWidth id='email' label='Email Address' name='email' autoComplete='email' autoFocus />
-                <TextField margin='normal' required fullWidth name='password' label='Password' type='password' id='password' autoComplete='current-password' />
+                <TextField margin='normal' fullWidth label='Username' name='username' autoFocus onChange={handleInputChange} value={values.username} />
+                <TextField margin='normal' fullWidth name='password' label='Password' type='password' onChange={handleInputChange} value={values.password} />
                 <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
                     Sign In
                 </Button>
