@@ -2,8 +2,11 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Restore.API.Data;
 using Restore.API.DTO;
 using Restore.API.Entities;
+using Restore.API.Extensions;
 using Restore.API.Services;
 
 namespace Restore.API.Controllers
@@ -12,11 +15,13 @@ namespace Restore.API.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly TokenService tokenService;
+        private readonly StoreContext context;
 
-        public AccountController(UserManager<User> userManager, TokenService tokenService)
+        public AccountController(UserManager<User> userManager, TokenService tokenService, StoreContext context)
         {
             this.userManager = userManager;
             this.tokenService = tokenService;
+            this.context = context;
         }
 
         [HttpPost("login")]
@@ -26,10 +31,22 @@ namespace Restore.API.Controllers
             if (user == null || !await userManager.CheckPasswordAsync(user, loginDTO.Password))
                 return Unauthorized();
 
+            var userBasket = await RetrieveBasket(loginDTO.Username);
+            var anonBasket = await RetrieveBasket(Request.Cookies["buyerId"]);
+
+            if (anonBasket != null)
+            {
+                if (userBasket != null) context.Baskets.Remove(userBasket);
+                anonBasket.BuyerId = user.UserName;
+                Response.Cookies.Delete("buyerId");
+                await context.SaveChangesAsync();
+            }
+
             return Ok(new UserDTO
             {
                 Email = user.Email,
                 Token = await tokenService.GenerateToken(user),
+                Basket = anonBasket != null ? anonBasket.MapBasketToDto() : userBasket.MapBasketToDto()
             });
         }
 
@@ -59,6 +76,21 @@ namespace Restore.API.Controllers
                 Email = user.Email,
                 Token = await tokenService.GenerateToken(user),
             });
+        }
+
+        private async Task<Basket> RetrieveBasket(string buyerId)
+        {
+            if (string.IsNullOrEmpty(buyerId))
+            {
+                Response.Cookies.Delete("buyerId");
+                return null;
+            }
+
+            var basket = await context.Baskets
+                .Include(i => i.Items) // include information about the basket items
+                .ThenInclude(p => p.Product) // include information about the products
+                .FirstOrDefaultAsync(b => b.BuyerId == buyerId);
+            return basket;
         }
     }
 }
