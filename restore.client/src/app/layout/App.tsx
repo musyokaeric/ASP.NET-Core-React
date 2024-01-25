@@ -10,12 +10,14 @@ import { useAppDispatch } from "../store/configureStore";
 import { setBasket } from "../../features/basket/basketSlice";
 
 import "react-toastify/dist/ReactToastify.css";
+import { fetchCurrentUser } from "../../features/account/accountSlice";
 
 function App() {
     const dispatch = useAppDispatch();
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+        dispatch(fetchCurrentUser());
         const buyerId = getCookie("buyerId");
         if (buyerId) {
             agent.Basket.get()
