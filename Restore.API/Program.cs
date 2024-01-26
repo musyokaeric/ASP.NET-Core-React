@@ -58,7 +58,7 @@ builder.Services.AddIdentityCore<User>(options=>
 {
     options.User.RequireUniqueEmail = true; // Prevents duplicate emails
 })
-    .AddRoles<IdentityRole>()
+    .AddRoles<Role>()
     .AddEntityFrameworkStores<StoreContext>();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
