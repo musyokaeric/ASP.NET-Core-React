@@ -20,15 +20,15 @@ namespace Restore.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<Order>>> GetOrders()
+        public async Task<ActionResult<List<OrderDTO>>> GetOrders()
         {
-            return await context.Orders.Include(o => o.OrderItems).Where(o => o.BuyerId == User.Identity.Name).ToListAsync();
+            return await context.Orders.ProjectOrderToOrderDTO().Where(o => o.BuyerId == User.Identity.Name).ToListAsync();
         }
 
         [HttpGet("{id}", Name = "GetOrder")]
-        public async Task<ActionResult<Order>> GetOrder(int id)
+        public async Task<ActionResult<OrderDTO>> GetOrder(int id)
         {
-            return await context.Orders.Include(o => o.OrderItems).Where(o => o.BuyerId == User.Identity.Name && o.Id == id).FirstOrDefaultAsync();
+            return await context.Orders.ProjectOrderToOrderDTO().Where(o => o.BuyerId == User.Identity.Name && o.Id == id).FirstOrDefaultAsync();
 
         }
 
