@@ -77,8 +77,9 @@ namespace Restore.API.Controllers
 
             if(orderDTO.SaveAddress)
             {
-                var user = await context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-                user.Address = new UserAddress
+                var user = await context.Users.Include(a => a.Address).FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+
+                var address = new UserAddress
                 {
                     FullName = orderDTO.ShippingAddress.FullName,
                     Address1 = orderDTO.ShippingAddress.Address1,
@@ -88,7 +89,7 @@ namespace Restore.API.Controllers
                     Zip = orderDTO.ShippingAddress.Zip,
                     Region = orderDTO.ShippingAddress.Region,
                 };
-                context.Update(user);
+                user.Address = address;
             }
 
             var result = await context.SaveChangesAsync() > 0;
