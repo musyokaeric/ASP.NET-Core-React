@@ -66,7 +66,7 @@ export default function Register() {
                     autoFocus
                     {...register("username", { required: "Username is required" })}
                     error={!!errors.username}
-                    helperText={errors?.username?.message}
+                    helperText={errors?.username?.message as string}
                 />
                 <TextField
                     margin='normal'
@@ -80,7 +80,7 @@ export default function Register() {
                         },
                     })}
                     error={!!errors.email}
-                    helperText={errors?.email?.message}
+                    helperText={errors?.email?.message as string}
                 />
                 <TextField
                     margin='normal'
@@ -95,7 +95,7 @@ export default function Register() {
                         },
                     })}
                     error={!!errors.password}
-                    helperText={errors?.password?.message}
+                    helperText={errors?.password?.message as string}
                 />
 
                 <LoadingButton loading={isSubmitting} disabled={!isValid} type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>

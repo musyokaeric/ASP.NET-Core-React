@@ -14,6 +14,18 @@ const initialState: AccountState = {
     user: null,
 };
 
+export const signInUser = createAsyncThunk<User, FieldValues>("account/signInUser", async (data, thunkAPI) => {
+    try {
+        const userDto = await agent.Account.login(data);
+        const { basket, ...user } = userDto;
+        if (basket) thunkAPI.dispatch(setBasket(basket));
+        localStorage.setItem("user", JSON.stringify(user));
+        return user;
+    } catch (error) {
+        return thunkAPI.rejectWithValue({ error: error.data });
+    }
+});
+
 export const fetchCurrentUser = createAsyncThunk<User>(
     "account/fetchCurrentUser",
     async (_, thunkAPI) => {
@@ -34,18 +46,6 @@ export const fetchCurrentUser = createAsyncThunk<User>(
         },
     }
 );
-
-export const signInUser = createAsyncThunk<User, FieldValues>("account/signInUser", async (data, thunkAPI) => {
-    try {
-        const userDto = await agent.Account.login(data);
-        const { basket, ...user } = userDto;
-        if (basket) thunkAPI.dispatch(setBasket(basket));
-        localStorage.setItem("user", JSON.stringify(user));
-        return user;
-    } catch (error) {
-        return thunkAPI.rejectWithValue({ error: error.data });
-    }
-});
 
 export const accountSlice = createSlice({
     name: "account",
