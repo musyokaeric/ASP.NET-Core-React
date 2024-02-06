@@ -26,13 +26,11 @@ namespace Restore.API.Services
             {
                 var options = new PaymentIntentCreateOptions
                 {
-                    Amount = (long)Convert.ToDouble(subTotal + deliveryFee),
+                    Amount = (long)Convert.ToDouble(subTotal + deliveryFee) * 100,
                     Currency = "usd",
                     PaymentMethodTypes = new List<string> { "card" }
                 };
                 intent = await service.CreateAsync(options);
-                basket.PaymentIntentId = intent.Id;
-                basket.ClientSecret = intent.ClientSecret;
             }
             else
             {
