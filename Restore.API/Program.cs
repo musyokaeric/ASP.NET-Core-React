@@ -77,6 +77,9 @@ builder.Services.AddAuthorization();
 // JWT Token Service
 builder.Services.AddScoped<TokenService>();
 
+// Payment Service
+builder.Services.AddScoped<PaymentService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
