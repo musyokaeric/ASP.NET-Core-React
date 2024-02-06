@@ -14,6 +14,7 @@ namespace Restore.API.Entities.OrderAggregate
         public double Subtotal { get; set; }
         public double DeliveryFee { get; set; }
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
+        public string PaymentIntentId { get; set; }
 
         public double GetTotal() => Subtotal + DeliveryFee;
     }
